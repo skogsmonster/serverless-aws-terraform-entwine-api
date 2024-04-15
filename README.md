@@ -1,27 +1,40 @@
 # Serverless AWS Terraform API for Point Cloud Retrieval with Entwine
-This repository aims to provide a robust and straightforward way to access bounded 3DEP point cloud data using serverless technologies, bringing geospatial analysis capabilities to a broader audience with ease.
+This repository contains infrastructure-as-code using Terraform to deploy a serverless API on AWS. Features are simple and minimal: send GeoJSON polygons and recieve bounded point cloud data from the 3DEP database. The repo leverages Entwine to index point cloud data, PDAL for point cloud processing, and AWS Fargate for scalable, serverless execution of PDAL tasks.
 
-Use the Terraform configurations and necessary code to deploy a serverless API on AWS, leveraging Entwine for processing 3DEP point cloud data. The API allows users to `POST` GeoJSON polygons and receive corresponding point cloud data, enabling users to seamlessly interact with large geospatial datasets in an efficient and scalable manner.
+I created this repo for AI/ML feature extraction at scale, but geospatial developers and researchers looking to leverage cloud computing for point cloud processing might also find it useful. 
+
+## Overview
+
+The API serves as an interface to post GeoJSON polygons and retrieve point cloud data processed from the 3DEP database. AWS Fargate is utilized to run containerized PDAL operations, ensuring on-demand processing that scales automatically with the load. Entwine is employed to organize large point cloud datasets into a readily accessible format, and Terraform automates the creation and management of the necessary AWS resources.
 
 ## Features
 
-- **Serverless Architecture**: Built on AWS, the infrastructure scales automatically with usage, ensuring cost-effective and performant operation.
-- **Terraform Automation**: The entire AWS infrastructure is defined as code using Terraform, allowing for reproducible deployments and easy versioning.
-- **GeoJSON Input**: Users can submit GeoJSON polygons via a `POST` request, specifying the area for which they require point cloud data.
-- **Entwine Point Cloud Processing**: Integrates with Entwine to index and tile the 3DEP LiDAR data, enabling efficient querying and retrieval of point cloud data.
-- **AWS Lambda**: Processes the `POST` request and manages the interaction with Entwine and the retrieval of point cloud data.
-- **Amazon S3**: Serves as the storage solution for both the raw 3DEP data and the processed Entwine point cloud data.
-- **API Gateway**: Provides a RESTful endpoint for client interactions, handling `POST` requests and returning the point cloud data.
-- **IAM Security**: Ensures that permissions and access are tightly controlled, granting only necessary privileges to each component within the architecture.
+- **Serverless Infrastructure**: Automated scaling and management of the infrastructure to ensure cost-effective and performant operation.
+- **Terraform Automation**: Streamlined deployment with Terraform to manage AWS resources as code, providing consistency and ease of replication.
+- **GeoJSON to Point Cloud**: Users can POST GeoJSON data to specify the area for which point cloud data is needed.
+- **Entwine Indexing**: Efficient querying and handling of massive point cloud datasets using Entwine for data indexing.
+- **PDAL Processing**: Advanced point cloud processing with PDAL, executed in AWS Fargate for handling compute-intensive tasks.
+- **API Gateway & AWS Lambda**: A RESTful API interface managed by API Gateway, with backend processing powered by AWS Lambda functions.
+- **Amazon S3 Storage**: Integration with S3 for storing raw and processed point cloud data, ensuring durability and security.
+- **IAM Roles and Policies**: Fine-grained access control using AWS IAM to maintain security best practices.
+
+## Architecture
+
+The system is comprised of the following components:
+- API Gateway to receive GeoJSON via POST requests.
+- Lambda functions to trigger Fargate tasks running PDAL for point cloud cropping based on the GeoJSON input.
+- Fargate tasks that process the point cloud data using PDAL and store the results in an S3 bucket.
+- An S3 bucket to hold the incoming GeoJSON, intermediate files, and the final cropped point cloud data.
+- IAM roles and policies to securely orchestrate access between services.
 
 ## Getting Started
 
-To utilize this repository:
+To deploy the API:
 
-1. Clone the repo to your local machine.
-2. Ensure you have Terraform and AWS CLI installed and configured.
-3. Navigate to the Terraform directory and initialize the Terraform environment with `terraform init`.
-4. Apply the Terraform configurations with `terraform apply`.
+1. Clone the repository.
+2. Install Terraform and configure AWS CLI with appropriate credentials.
+3. Navigate to the `terraform` directory and initialize Terraform with `terraform init`.
+4. Apply the configuration using `terraform apply`.
 
 ## Usage
 
