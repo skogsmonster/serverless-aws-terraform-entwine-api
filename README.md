@@ -40,7 +40,7 @@ To deploy the API:
 
 ## Usage
 
-- Send a `POST` request to the deployed API endpoint with your GeoJSON payload.
+- Send a `POST` request to the deployed API endpoint with your GeoJSON payload (create one at [geojson.io](https://geojson.io/)).
 - The API will return a link to the processed point cloud data stored in S3 or stream it directly to your client, depending on your preference and setup.
 
 ## Contributing
